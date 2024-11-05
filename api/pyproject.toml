@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "demo-auth-website"
+version = "0.1.0"
+description = "Demo auth website"
+authors = ["qiisqwww <qiisqwww@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["all"], version = "^0.115.4"}
+sqlalchemy = "^2.0.36"
+bcrypt = "^4.2.0"
+alembic = "^1.14.0"
+cryptography = "^43.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

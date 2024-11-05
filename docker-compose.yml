@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  demo_auth_website:
+    env_file:
+      - api/.env
+    build:
+      dockerfile: ./api/Dockerfile
+      context: ./api
+    command: ["/app/scripts/app.sh"]
+    volumes:
+      - ./api/alembic/versions:/app/alembic/versions
