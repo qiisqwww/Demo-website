@@ -1,4 +1,5 @@
-from typing import Optional, Self
+from typing import Self
+from datetime import date
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -12,13 +13,12 @@ __all__ = [
 class UserReturnData(BaseModel):
     username: str = Field(min_length=3, max_length=255)
     email: EmailStr = Field(min_length=3, max_length=320)
+    birthdate: date
 
     @classmethod
     def from_user(cls, user: User) -> Self:
         return UserReturnData(
             username=user.username,
             email=user.email,
-            is_active=user.is_active,
-            is_superuser=user.is_superuser,
-            is_verified=user.is_verified
+            birthdate=user.birthdate
         )

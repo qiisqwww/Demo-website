@@ -1,4 +1,5 @@
 from typing import Optional, Self
+from datetime import date
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -12,6 +13,7 @@ __all__ = [
 class UserCreateData(BaseModel):
     username: str = Field(min_length=3, max_length=255)
     email: EmailStr = Field(min_length=3, max_length=320)
+    birthdate: date
     hashed_password: str
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
@@ -22,6 +24,7 @@ class UserCreateData(BaseModel):
         return UserCreateData(
             username=user_register_data.username,
             email=user_register_data.email,
+            birthdate=user_register_data.birthdate,
             hashed_password=hashed_password,
             is_active=user_register_data.is_active,
             is_superuser=user_register_data.is_superuser,

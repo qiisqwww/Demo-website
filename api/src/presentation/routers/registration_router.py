@@ -13,7 +13,7 @@ registration_router = APIRouter()
 
 
 @registration_router.post("/registration")
-async def register_user(user: UserInputData, user_service: UserService = Depends(get_user_service)):
+async def register_user(user: UserInputData, user_service: UserService = Depends(get_user_service)) -> str:
     try:
         await user_service.register(user)
     except UsernameAlreadyUsedException as e:
@@ -26,3 +26,5 @@ async def register_user(user: UserInputData, user_service: UserService = Depends
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="User with this email already exists"
         ) from e
+
+    return "ok"
