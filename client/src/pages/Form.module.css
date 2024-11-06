@@ -1,0 +1,21 @@
+.modal {
+	margin: auto;
+	background-color: #fff;
+	border-radius: 15px;
+	border: 1px #aaa solid;
+	padding: 40px;
+	width: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	margin: 0;
+}
+
+.title {
+	margin-bottom: 10px;
+	font-size: 30px;
+	color: #fff;
+}
