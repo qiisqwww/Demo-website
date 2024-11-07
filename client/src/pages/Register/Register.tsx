@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, DatePicker, Form, Input } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, Navigate } from 'react-router-dom';
@@ -31,11 +31,11 @@ export default function Register() {
 		console.log(values)
 		console.log(values.date.format("DD.MM.YYYY"))
 		try{
-			const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, { 
+			const response = await axios.post(`${import.meta.env.VITE_API_URL}/registration`, { 
 				username: values.username, 
-				password: values.password,
-				birthday: values.date.format("YYYY-MM-DD"),
-				email: values.email
+				email: values.email,
+				birthdate: values.date.format("YYYY-MM-DD"),
+				password: values.password
 			});
 			const token = response.data.token;
 			saveTokenInCookie(token);

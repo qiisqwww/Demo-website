@@ -19,7 +19,7 @@ app_object = FastAPI(
 app_object.middleware("http")(catch_exception_middleware)
 app_object.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

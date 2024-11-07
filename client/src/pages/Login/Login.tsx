@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, Navigate } from 'react-router-dom';
@@ -32,6 +32,7 @@ export default function Login() {
 			const token = response.data.token;
 			saveTokenInCookie(token);
 			setError("")
+			console.log(response.data)
 			setIsLogged(true);
 		}catch(error:unknown){
 			const e = error as AxiosError;
