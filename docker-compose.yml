@@ -13,6 +13,8 @@ services:
     depends_on:
       mysql_daw:
         condition: service_healthy
+    ports:
+     - "8080:8080"
 
   mysql_daw:
     image: mysql:latest
@@ -26,3 +28,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    volumes:
+      - ./client:/app
+      - /app/node_modules

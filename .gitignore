@@ -1,3 +1,4 @@
 .idea
 *.env
 /api/db
+node_modules
