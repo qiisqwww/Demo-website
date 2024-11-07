@@ -17,6 +17,6 @@ class User(Base):
     email: str = Column(String(length=320), nullable=False)  # type: ignore
     birthdate: date = Column(Date, nullable=False)
     hashed_password: str = Column(String(length=1024), nullable=False)  # type: ignore
-    is_active = Column(Boolean, server_default='1', nullable=False)  # type: ignore
-    is_superuser = Column(Boolean, server_default='0', nullable=False)  # type: ignore
-    is_verified = Column(Boolean, server_default='0', nullable=False)  # type: ignore
+    is_active = Column(Boolean, server_default='true', nullable=False)  # type: ignore
+    is_superuser = Column(Boolean, server_default='false', nullable=False)  # type: ignore
+    is_verified = Column(Boolean, server_default='false', nullable=False)  # type: ignore

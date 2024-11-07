@@ -6,11 +6,11 @@ __all__ = [
     "OPENAPI_URL",
     "HTTP_HOST",
     "HTTP_PORT",
-    "MYSQL_HOST",
-    "MYSQL_DATABASE",
-    "MYSQL_PORT",
-    "MYSQL_PASSWORD",
-    "MYSQL_USER",
+    "DB_HOST",
+    "DB_NAME",
+    "DB_PORT",
+    "DB_PASSWORD",
+    "DB_USER",
     "ACCESS_TOKEN_EXPIRE_DAYS",
     "SECRET"
 ]
@@ -23,11 +23,11 @@ OPENAPI_URL: str = StrEnv("OPENAPI_URL")
 HTTP_HOST: str = StrEnv("HTTP_HOST")
 HTTP_PORT: int = IntEnv("HTTP_PORT")
 
-MYSQL_USER: str = StrEnv("MYSQL_USER")
-MYSQL_PASSWORD: str = StrEnv("MYSQL_PASSWORD")
-MYSQL_DATABASE: str = StrEnv("MYSQL_DATABASE")
-MYSQL_HOST: str = StrEnv("MYSQL_HOST")
-MYSQL_PORT: int = IntEnv("MYSQL_PORT")
+DB_USER: str = StrEnv("DB_USER")
+DB_PASSWORD: str = StrEnv("DB_PASSWORD")
+DB_NAME: str = StrEnv("DB_NAME")
+DB_HOST: str = StrEnv("DB_HOST")
+DB_PORT: int = IntEnv("DB_PORT")
 
 ACCESS_TOKEN_EXPIRE_DAYS: int = IntEnv("ACCESS_TOKEN_EXPIRE_DAYS")
 SECRET: str = StrEnv("SECRET")

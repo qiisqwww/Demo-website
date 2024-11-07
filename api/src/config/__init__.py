@@ -4,11 +4,11 @@ from .config import (
     OPENAPI_URL,
     HTTP_HOST,
     HTTP_PORT,
-    MYSQL_PORT,
-    MYSQL_PASSWORD,
-    MYSQL_DATABASE,
-    MYSQL_HOST,
-    MYSQL_USER,
+    DB_PORT,
+    DB_PASSWORD,
+    DB_NAME,
+    DB_HOST,
+    DB_USER,
     ACCESS_TOKEN_EXPIRE_DAYS,
     SECRET
 )
@@ -19,11 +19,11 @@ __all__ = [
     "OPENAPI_URL",
     "HTTP_HOST",
     "HTTP_PORT",
-    "MYSQL_HOST",
-    "MYSQL_USER",
-    "MYSQL_PASSWORD",
-    "MYSQL_DATABASE",
-    "MYSQL_PORT",
+    "DB_HOST",
+    "DB_USER",
+    "DB_PASSWORD",
+    "DB_NAME",
+    "DB_PORT",
     "ACCESS_TOKEN_EXPIRE_DAYS",
     "SECRET"
 ]

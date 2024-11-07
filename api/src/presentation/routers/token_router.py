@@ -35,3 +35,5 @@ async def validate_token(
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    return "ok"
