@@ -20,9 +20,8 @@ export default function Profile() {
 
 	const token = Cookies.get('token');
 
-// Создаем экземпляр Axios с заголовком Authorization
 	const axiosInstance = axios.create({
-		baseURL: 'https://your-api-url.com', // Замените на URL вашего API
+		baseURL: `${import.meta.env.VITE_API_URL}`, 
 		headers: {
 			Authorization: `Bearer ${token}`, // Передаем токен как Bearer-токен
 		},
