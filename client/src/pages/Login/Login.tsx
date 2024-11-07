@@ -31,8 +31,8 @@ export default function Login() {
 			const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { username: values.username, password: values.password });
 			const token = response.data.token;
 			saveTokenInCookie(token);
-			setIsLogged(true);
 			setError("")
+			setIsLogged(true);
 		}catch(error:unknown){
 			const e = error as AxiosError;
 			console.error("Ошибка при логине: " + e);
@@ -57,15 +57,27 @@ export default function Login() {
 
 					<Form.Item
 						name="username"
-						rules={[{ required: true, message: 'Please input your Username!' }]}
+						rules={[
+							{ required: true, message: 'Please input your Username!' },
+							{ 
+								min: 3, 
+								message: 'Username must be at least 3 characters long' 
+							}
+						]}
 					>
-						<Input prefix={<UserOutlined />} placeholder="Username" />
+						<Input prefix={<UserOutlined />} placeholder="Username" minLength={3}/>
 					</Form.Item>
 					<Form.Item
 						name="password"
-						rules={[{ required: true, message: 'Please input your Password!' }]}
+						rules={[
+							{ required: true, message: 'Please input your Password!' },
+							{ 
+								min: 3, 
+								message: 'Password must be at least 3 characters long' 
+							}
+						]}
 					>
-						<Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+						<Input prefix={<LockOutlined />} type="password" placeholder="Password" minLength={3}/>
 					</Form.Item>
 
 					<Form.Item className={styles.button}>

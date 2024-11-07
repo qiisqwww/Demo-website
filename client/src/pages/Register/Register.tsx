@@ -39,8 +39,8 @@ export default function Register() {
 			});
 			const token = response.data.token;
 			saveTokenInCookie(token);
-			setIsLogged(true)
 			setError("")
+			setIsLogged(true)
 		}catch(error:unknown){
 			const e = error as AxiosError;
 			console.error("Ошибка при регистрации: " + e)
@@ -64,9 +64,11 @@ export default function Register() {
 					{error && <ErrorMessage error={error} />}
 					<Form.Item
 						name="username"
-						rules={[{ required: true, message: 'Please input your Username!' }]}
+						rules={[
+							{ required: true, message: 'Please input your username!' },
+							{ min: 3, message: 'Username must be at least 3 characters long' }]}
 					>
-						<Input prefix={<UserOutlined />} placeholder="Username" />
+						<Input prefix={<UserOutlined />} placeholder="Username" minLength={3}/>
 					</Form.Item>
 
 					<Form.Item
@@ -74,20 +76,30 @@ export default function Register() {
 						rules={[
 							{ 
 								required: true, 
-								message: 'Please input your Email!' },
+								message: 'Please input your email!' 
+							},
 							{
 								type: 'email',
-								message: 'The input is not valid Email!',
+								message: 'The input is not valid email!',
 							},
+							{ 
+								min: 3, 
+								message: 'email must be at least 3 characters long' 
+							}
 						]}
 					>
-						<Input prefix={<MailOutlined />} placeholder="Email" />
+						<Input prefix={<MailOutlined />} placeholder="Email" minLength={3}/>
 					</Form.Item>
 
 					<Form.Item
 						name="date"
 						hasFeedback
-						rules={[{ required: true, message: 'Please input your birth!' }]}
+						rules={[
+							{ 
+								required: true, 
+								message: 'Please input your birth!' 
+							}
+						]}
 					>
 						<DatePicker style={{width:"100%"}} placeholder="Birthday" format={"DD/MM/YY"}/>
 					</Form.Item>
@@ -95,9 +107,15 @@ export default function Register() {
 					<Form.Item
 						name="password"
 						hasFeedback
-						rules={[{ required: true, message: 'Please input your Password!' }]}
+						rules={[
+							{ required: true, message: 'Please input your password!' },
+							{ 
+								min: 3, 
+								message: 'Password must be at least 3 characters long' 
+							}
+						]}
 					>
-						<Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" />
+						<Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" minLength={3}/>
 					</Form.Item>
 
 					<Form.Item
@@ -109,6 +127,10 @@ export default function Register() {
 								required: true,
 								message: 'Please confirm your password!',
 							},
+							{ 
+								min: 3, 
+								message: 'Password must be at least 3 characters long' 
+							},
 							({ getFieldValue }) => ({
 								validator(_, value) {
 									if (!value || getFieldValue('password') === value) {
@@ -119,7 +141,7 @@ export default function Register() {
 							}),
 						]}
 					>
-						<Input.Password prefix={<LockOutlined />} type="password" placeholder="Confirm password" />
+						<Input.Password prefix={<LockOutlined />} type="password" placeholder="Confirm password" minLength={3}/>
 					</Form.Item>
 
 					<Form.Item className={styles.button}>

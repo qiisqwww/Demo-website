@@ -3,20 +3,18 @@ import {Routes, Route, Link} from "react-router-dom"
 import Login from "./pages/Login/Login"
 import Register from "./pages/Register/Register"
 import Profile from "./pages/Profile/Profile"
-import styles from "./App.module.css"
+import NotFound from './components/NotFound/NotFound'
+import style from "./App.module.css"
 
 function App() {
   return (
     <>
-      <header className={styles.header}>
-				<Link to="/registration">Regist</Link>
-				<Link to="Login">Login</Link>
-				<Link to="me">Me</Link>
-			</header>
 			<Routes>
+				<Route path='/' element={<Link to="/login" className={style.button}>Log in</Link>}/>
 				<Route path="/login" element={<Login />}/>
 				<Route path="/registration" element={<Register />}/>
 				<Route path="/me" element={<Profile />}/>
+				<Route path='*' element={<NotFound />}/>
 			</Routes>
     </>
   )
