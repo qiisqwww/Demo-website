@@ -9,9 +9,12 @@ readme = "README.md"
 python = "^3.12"
 fastapi = {extras = ["all"], version = "^0.115.4"}
 sqlalchemy = "^2.0.36"
-bcrypt = "^4.2.0"
 alembic = "^1.14.0"
 cryptography = "^43.0.3"
+mysql-connector-python = "^9.1.0"
+python-multipart = "^0.0.17"
+fastapi-jwt-auth = "^0.5.0"
+bcrypt = "^4.2.0"
 
 
 [build-system]

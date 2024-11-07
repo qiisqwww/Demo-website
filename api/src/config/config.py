@@ -1,0 +1,33 @@
+from src.config.env import StrEnv, IntEnv
+
+__all__ = [
+    "PROJECT_NAME",
+    "DOCS_URL",
+    "OPENAPI_URL",
+    "HTTP_HOST",
+    "HTTP_PORT",
+    "MYSQL_HOST",
+    "MYSQL_DATABASE",
+    "MYSQL_PORT",
+    "MYSQL_PASSWORD",
+    "MYSQL_USER",
+    "ACCESS_TOKEN_EXPIRE_DAYS",
+    "SECRET"
+]
+
+PROJECT_NAME: str = StrEnv("PROJECT_NAME")
+
+DOCS_URL: str = StrEnv("DOCS_URL")
+OPENAPI_URL: str = StrEnv("OPENAPI_URL")
+
+HTTP_HOST: str = StrEnv("HTTP_HOST")
+HTTP_PORT: int = IntEnv("HTTP_PORT")
+
+MYSQL_USER: str = StrEnv("MYSQL_USER")
+MYSQL_PASSWORD: str = StrEnv("MYSQL_PASSWORD")
+MYSQL_DATABASE: str = StrEnv("MYSQL_DATABASE")
+MYSQL_HOST: str = StrEnv("MYSQL_HOST")
+MYSQL_PORT: int = IntEnv("MYSQL_PORT")
+
+ACCESS_TOKEN_EXPIRE_DAYS: int = IntEnv("ACCESS_TOKEN_EXPIRE_DAYS")
+SECRET: str = StrEnv("SECRET")
