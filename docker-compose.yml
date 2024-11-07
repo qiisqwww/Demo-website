@@ -5,8 +5,24 @@ services:
     env_file:
       - api/.env
     build:
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./Dockerfile
       context: ./api
     command: ["/app/scripts/app.sh"]
     volumes:
       - ./api/alembic/versions:/app/alembic/versions
+    depends_on:
+      mysql_daw:
+        condition: service_healthy
+
+  mysql_daw:
+    image: mysql:latest
+    restart: always
+    env_file:
+      - ./api/.env
+    volumes:
+      - ./api/db:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -u $${MYSQL_USER} -p$${MYSQL_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
