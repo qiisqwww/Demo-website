@@ -1,0 +1,20 @@
+.container{
+	padding: 20px;
+	border-radius: 15px;
+	border: 1px #555 solid;
+	width: 500px;
+}
+
+.title{
+	margin-top: 0;
+}
+
+.text{
+	font-weight: 300;
+}
+
+.data {
+	font-weight: 800;
+	font-size: 18px;
+	margin-left: 5px;
+}

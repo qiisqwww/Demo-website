@@ -29,7 +29,7 @@ export default function Login() {
 		console.log(values)
 		try{
 			const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { username: values.username, password: values.password });
-			const token = response.data.token;
+			const token = response.data.access_token;
 			saveTokenInCookie(token);
 			setError("")
 			console.log(response.data)
