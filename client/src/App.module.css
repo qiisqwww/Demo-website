@@ -1,0 +1,15 @@
+.header{
+	display: flex;
+	width: 500px;
+	justify-content: space-around;
+}
+
+.button {
+	display: block;
+	margin: auto;
+	text-align: center;
+	width: 100%;
+	font-size: 40px;
+	color: #fff;
+	text-decoration: underline;
+}
