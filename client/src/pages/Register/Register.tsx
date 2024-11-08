@@ -10,9 +10,9 @@ import ErrorMessage from "../../components/ErrorMessage/Error"
 
 const saveTokenInCookie = (token:string):void => {
 	Cookies.set('token', token, {
-		expires: 7, // Expiration in days
-		secure: import.meta.env.NODE_ENV === 'production', // Secure in production
-		sameSite: 'Strict', // Adjust according to your needs
+		expires: 7,
+		secure: import.meta.env.NODE_ENV === 'production', 
+		sameSite: 'Strict',
 	});
 };
 
@@ -23,17 +23,11 @@ interface IFormValues {
 	date: dayjs.Dayjs
 }
 
-interface IRegisterProps {
-	isLogged: boolean
-	setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function Register({isLogged, setIsLogged}:IRegisterProps) {
+export default function Register() {
 	const [error, setError] = useState("");
+	const [registered, setRegistered] = useState(false);
 
   const onSubmit = async (values:IFormValues) => {
-		console.log(values)
-		console.log(values.date.format("DD.MM.YYYY"))
 		try{
 			const response = await axios.post(`${import.meta.env.VITE_API_URL}/registration`, { 
 				username: values.username, 
@@ -44,7 +38,7 @@ export default function Register({isLogged, setIsLogged}:IRegisterProps) {
 			const token = response.data.token;
 			saveTokenInCookie(token);
 			setError("")
-			setIsLogged(true)
+			setRegistered(true)
 		}catch(error:unknown){
 			const e = error as AxiosError;
 			console.error("Ошибка при регистрации: " + e)
@@ -52,8 +46,8 @@ export default function Register({isLogged, setIsLogged}:IRegisterProps) {
 		}
 	} 
 
-	if(isLogged){
-		return <Navigate to="/me" />
+	if(registered){
+		return <Navigate to="/login" />
 	}else{
 		return (
 		<>

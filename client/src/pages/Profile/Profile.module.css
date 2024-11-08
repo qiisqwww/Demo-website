@@ -10,11 +10,10 @@
 }
 
 .text{
-	font-weight: 300;
+	font-weight: 700;
+	margin-bottom: 0;
 }
 
-.data {
-	font-weight: 800;
-	font-size: 18px;
-	margin-left: 5px;
+.data{
+	font-weight: 400;
 }

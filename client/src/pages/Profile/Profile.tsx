@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import styles from "./Profile.module.css"
 import { Navigate } from "react-router-dom"
+import { Avatar, Card } from "antd"
+import { LogoutOutlined } from "@ant-design/icons"
 
 interface IProfileData{
 	username: string
@@ -23,6 +25,7 @@ export default function Profile({isLogged, setIsLogged} : IProfileProps) {
 		email: "",
 		birthdate: ""
 	})
+	const [loading, setLoading] = useState(false)
 
 	const token = Cookies.get('token');
 
@@ -37,8 +40,12 @@ export default function Profile({isLogged, setIsLogged} : IProfileProps) {
 		try{
 			const response = await axiosInstance.get<IProfileData>(`${import.meta.env.VITE_API_URL}/me`)
 			setUser(response.data)
+			setLoading(true)
 		}catch(e:unknown){
+			logout()
 			console.error(e)
+		}finally{
+			setLoading(false)
 		}
 	}
 
@@ -53,13 +60,21 @@ export default function Profile({isLogged, setIsLogged} : IProfileProps) {
 
 	if (isLogged){
 		return (
-			<div className={styles.container}>
-				<h1 className={styles.title}>Profile</h1>
-				<p className={styles.text}>Username:  <span className={styles.data}>{user.username}</span></p>
-				<p className={styles.text}>Birthday:  <span className={styles.data}>{user.birthdate}</span></p>
-				<p className={styles.text}>Email:  <span className={styles.data}>{user.email}</span></p>
-				<button onClick={logout}>Log out</button>
-			</div>
+			<>
+			<h1>Profile card</h1>
+			<Card loading={loading} actions={[<LogoutOutlined onClick={logout} key="edit" />]} style={{ minWidth: 300 }}>
+        <Card.Meta
+          avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />}
+          title={user.username}
+          description={
+            <>
+              <p className={styles.text}>Birthday:  <span className={styles.data}>{user.birthdate}</span></p>
+							<p className={styles.text}>Email:  <span className={styles.data}>{user.email}</span></p>
+            </>
+          }
+        />
+      </Card>
+			</>
 		)
 	}else{
 		return <Navigate to="/login"/>
