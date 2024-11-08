@@ -23,8 +23,12 @@ interface IFormValues {
 	date: dayjs.Dayjs
 }
 
-export default function Register() {
-	const [isLogged, setIsLogged] = useState(false);
+interface IRegisterProps {
+	isLogged: boolean
+	setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function Register({isLogged, setIsLogged}:IRegisterProps) {
 	const [error, setError] = useState("");
 
   const onSubmit = async (values:IFormValues) => {

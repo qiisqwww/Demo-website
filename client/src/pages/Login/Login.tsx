@@ -10,9 +10,9 @@ import ErrorMessage from "../../components/ErrorMessage/Error"
 
 const saveTokenInCookie = (token:string):void => {
 	Cookies.set('token', token, {
-		expires: 7, // Expiration in days
-		secure: import.meta.env.NODE_ENV === 'production', // Secure in production
-		sameSite: 'Strict', // Adjust according to your needs
+		expires: 7,
+		secure: import.meta.env.NODE_ENV === 'production',
+		sameSite: 'Strict',
 	});
 };
 
@@ -21,8 +21,12 @@ interface IFormValues {
 	password: string
 }
 
-export default function Login() {
-	const [isLogged, setIsLogged] = useState(false);
+interface ILoginProps {
+	isLogged: boolean
+	setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function Login({isLogged, setIsLogged}: ILoginProps) {
 	const [error, setError] = useState("");
 
 	const onSubmit = async (values:IFormValues) => {
@@ -32,15 +36,14 @@ export default function Login() {
 			const token = response.data.access_token;
 			saveTokenInCookie(token);
 			setError("")
-			console.log(response.data)
 			setIsLogged(true);
 		}catch(error:unknown){
 			const e = error as AxiosError;
 			console.error("Ошибка при логине: " + e);
 			setError("Ошибка, попробуйте еще раз")
 		}
-		
 	} 
+
 	if (isLogged){
 		return <Navigate to="/me" />;
 	}else{

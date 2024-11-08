@@ -4,6 +4,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import styles from "./Profile.module.css"
+import { Navigate } from "react-router-dom"
 
 interface IProfileData{
 	username: string
@@ -11,7 +12,12 @@ interface IProfileData{
 	birthdate: string
 }
 
-export default function Profile() {
+interface IProfileProps {
+	isLogged: boolean
+	setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function Profile({isLogged, setIsLogged} : IProfileProps) {
 	const [user, setUser] = useState<IProfileData>({
 		username: "",
 		email: "",
@@ -30,23 +36,33 @@ export default function Profile() {
 	const fetchData = async () => {
 		try{
 			const response = await axiosInstance.get<IProfileData>(`${import.meta.env.VITE_API_URL}/me`)
-			console.log(response.data)
 			setUser(response.data)
 		}catch(e:unknown){
 			console.error(e)
 		}
 	}
 
+	const logout = () => {
+		Cookies.remove("token")
+		setIsLogged(false)
+	}
+
 	useEffect(() => {
 		fetchData()
 	}, [])
 
-	return (
-		<div className={styles.container}>
-			<h1 className={styles.title}>Profile</h1>
-			<p className={styles.text}>Username:  <span className={styles.data}>{user.username}</span></p>
-			<p className={styles.text}>Birthday:  <span className={styles.data}>{user.birthdate}</span></p>
-			<p className={styles.text}>Email:  <span className={styles.data}>{user.email}</span></p>
-		</div>
-	)
+	if (isLogged){
+		return (
+			<div className={styles.container}>
+				<h1 className={styles.title}>Profile</h1>
+				<p className={styles.text}>Username:  <span className={styles.data}>{user.username}</span></p>
+				<p className={styles.text}>Birthday:  <span className={styles.data}>{user.birthdate}</span></p>
+				<p className={styles.text}>Email:  <span className={styles.data}>{user.email}</span></p>
+				<button onClick={logout}>Log out</button>
+			</div>
+		)
+	}else{
+		return <Navigate to="/login"/>
+	}
+	
 }
