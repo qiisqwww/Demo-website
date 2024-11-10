@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.config import MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE
+from src.config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 from src.models.declarative_base import Base
 
 # this is the Alembic Config object, which provides
@@ -13,11 +13,11 @@ from src.models.declarative_base import Base
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "MYSQL_HOST", MYSQL_HOST)
-config.set_section_option(section, "MYSQL_PORT", str(MYSQL_PORT))
-config.set_section_option(section, "MYSQL_USER", MYSQL_USER)
-config.set_section_option(section, "MYSQL_PASSWORD", MYSQL_PASSWORD)
-config.set_section_option(section, "MYSQL_DATABASE", MYSQL_DATABASE)
+config.set_section_option(section, "DB_HOST", DB_HOST)
+config.set_section_option(section, "DB_PORT", str(DB_PORT))
+config.set_section_option(section, "DB_USER", DB_USER)
+config.set_section_option(section, "DB_PASSWORD", DB_PASSWORD)
+config.set_section_option(section, "DB_NAME", DB_NAME)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
