@@ -1,17 +1,16 @@
 version: '3.9'
 
 services:
-  apache:
-    build:
-      dockerfile: ./apache/Dockerfile
-      context: .
-    ports:
-      - "80:80"
-    volumes:
-      - ./client/dist:/usr/local/apache2/htdocs
+  nginx_proxy:
     depends_on:
       - demo_auth_website
-      - frontend
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    volumes:
+      - ./client/dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
 
   demo_auth_website:
     env_file:
