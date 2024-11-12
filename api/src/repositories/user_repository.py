@@ -18,10 +18,12 @@ class UserRepository(IUserRepository):
         self._session = session
         self._model = User
 
-    async def insert_user(self, user_create_data: UserCreateData) -> None:
-        stmt = (insert(self._model).values(**user_create_data.dict()))
-        self._session.execute(stmt)
+    async def insert_user(self, user_create_data: UserCreateData) -> User:
+        stmt = (insert(self._model).values(**user_create_data.dict()).returning(self._model))
+        result = self._session.execute(stmt)
         self._session.commit()
+
+        return result.scalars().first()
 
     async def find_user_by_id(self, user_id: int) -> User | None:
         stmt = (select(self._model).where(self._model.id == user_id))

@@ -15,7 +15,7 @@ services:
 
   demo_auth_website:
     env_file:
-      - api/.env
+      - api/.env/.env
     build:
       dockerfile: ./Dockerfile
       context: ./api
@@ -23,20 +23,20 @@ services:
     volumes:
       - ./api/alembic/versions:/app/alembic/versions
     depends_on:
-      mysql_daw:
+      postgres_daw:
         condition: service_healthy
     ports:
      - "8080:8080"
-
-  mysql_daw:
-    image: mysql:latest
+      
+  postgres_daw:
+    image: postgres:16.1-alpine3.19
     restart: always
     env_file:
-      - ./api/.env
+      - ./api/.env/.database.env
     volumes:
-      - ./api/db:/var/lib/mysql
+      - ./api/db:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -u $${MYSQL_USER} -p$${MYSQL_PASSWORD}" ]
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 
 from src.services import UserService, EmailAlreadyUsedException, UsernameAlreadyUsedException
-from src.schemas import UserInputData
+from src.schemas import UserInputData, UserReturnData
 from src.get_service import get_user_service
 
 __all__ = [
@@ -12,10 +12,10 @@ __all__ = [
 registration_router = APIRouter()
 
 
-@registration_router.post("/registration")
+@registration_router.post("/registration", response_model=UserReturnData)
 async def register_user(user: UserInputData, user_service: UserService = Depends(get_user_service)) -> str:
     try:
-        await user_service.register(user)
+        user = await user_service.register(user)
     except UsernameAlreadyUsedException as e:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -27,4 +27,4 @@ async def register_user(user: UserInputData, user_service: UserService = Depends
             detail="User with this email already exists"
         ) from e
 
-    return "ok"
+    return user
