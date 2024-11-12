@@ -13,13 +13,9 @@ interface IProfileData{
 	email: string
 	birthdate: string
 }
+export default function Profile() {
+	const [isLogged, setIsLogged] = useState(true);
 
-interface IProfileProps {
-	isLogged: boolean
-	setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function Profile({isLogged, setIsLogged} : IProfileProps) {
 	const [user, setUser] = useState<IProfileData>({
 		username: "",
 		email: "",
@@ -32,7 +28,7 @@ export default function Profile({isLogged, setIsLogged} : IProfileProps) {
 	const axiosInstance = axios.create({
 		baseURL: `${import.meta.env.VITE_API_URL}`, 
 		headers: {
-			Authorization: `Bearer ${token}`, // Передаем токен как Bearer-токен
+			Authorization: `Bearer ${token}`,
 		},
 	});
 
