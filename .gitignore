@@ -2,3 +2,5 @@
 *.env
 /api/db
 node_modules
+*.key
+*.crt

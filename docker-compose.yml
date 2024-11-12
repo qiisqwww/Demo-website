@@ -4,13 +4,14 @@ services:
   nginx_proxy:
     depends_on:
       - demo_auth_website
+      - frontend
     build:
       dockerfile: Dockerfile
       context: ./nginx
     volumes:
       - ./client/dist:/usr/share/nginx/html
     ports:
-      - "80:80"
+      - "443:443"
 
   demo_auth_website:
     env_file:
@@ -24,8 +25,6 @@ services:
     depends_on:
       postgres_daw:
         condition: service_healthy
-    ports:
-     - "8080:8080"
       
   postgres_daw:
     image: postgres:16.1-alpine3.19
