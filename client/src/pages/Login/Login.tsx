@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { Button, Form, Input } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, Navigate } from 'react-router-dom';
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import styles from "../Form.module.css"
 import ErrorMessage from "../../components/ErrorMessage/Error"
+import { useCheckToken } from '../../hooks/checkToken';
 
 
 const saveTokenInCookie = (token:string):void => {
 	Cookies.set('token', token, {
-		expires: 7, // Expiration in days
-		secure: import.meta.env.NODE_ENV === 'production', // Secure in production
-		sameSite: 'Strict', // Adjust according to your needs
+		expires: 7,
+		secure: import.meta.env.NODE_ENV === 'production',
+		sameSite: 'Strict',
 	});
 };
 
@@ -22,29 +23,33 @@ interface IFormValues {
 }
 
 export default function Login() {
-	const [isLogged, setIsLogged] = useState(false);
 	const [error, setError] = useState("");
+	const {isLogged, setIsLogged, isLoading, setIsLoading} = useCheckToken();
 
 	const onSubmit = async (values:IFormValues) => {
-		console.log(values)
 		try{
+			setIsLoading(true)
 			const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { username: values.username, password: values.password });
 			const token = response.data.access_token;
 			saveTokenInCookie(token);
 			setError("")
-			console.log(response.data)
 			setIsLogged(true);
 		}catch(error:unknown){
 			const e = error as AxiosError;
-			console.error("Ошибка при логине: " + e);
-			setError("Ошибка, попробуйте еще раз")
+			if (e.request.status === 401){
+				const message = JSON.parse(e.request.response)
+				setError(message.detail)
+			}else{
+				setError("Error, try again")
+			}
+		} finally {
+			setIsLoading(false)
 		}
-		
 	} 
-	if (isLogged){
-		return <Navigate to="/me" />;
-	}else{
-		return (
+
+	if (isLogged) return <Navigate to="/me" />;
+	
+	return (
 		<>
 			<h1 className={styles.title}>Log in</h1>
 			<div className={styles.modal}>
@@ -78,17 +83,25 @@ export default function Login() {
 							}
 						]}
 					>
-						<Input prefix={<LockOutlined />} type="password" placeholder="Password" minLength={3}/>
+						<Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" minLength={3}/>
 					</Form.Item>
 
 					<Form.Item className={styles.button}>
+						{isLoading ? 
+						<Button block type="primary" htmlType="submit" disabled>
+							Log in
+							<LoadingOutlined style={{position: "absolute", right: 10 }}/>
+						</Button>
+						:
 						<Button block type="primary" htmlType="submit">
 							Log in
 						</Button>
+						}
+						
 						or <Link to="/registration">Register now!</Link>
 					</Form.Item>
 				</Form>	
 			</div>
 		</>
-	)}
+	)
 }

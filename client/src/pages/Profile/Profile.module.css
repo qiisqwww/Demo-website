@@ -1,20 +1,55 @@
-.container{
-	padding: 20px;
-	border-radius: 15px;
-	border: 1px #555 solid;
-	width: 500px;
+.page{
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	max-width: 1000px;
+	width: 700px;
+}
+
+.flex{
+	display: flex;
+	align-items: center;
+}
+
+.avatar{
+	width: 100px;
+	height: 100px;
+	border: 1px #ddd solid;
+	margin: 10px 30px 10px 10px;
+}
+
+.username{
+	margin: 0;
+	font-size: 40px;
+}
+
+.email{
+	margin: 0;
+	font-weight: 300;
+	font-size: 16px;
+}
+
+.birth{
+	margin-left: 10px;
+	font-size: 10px;
+	font-weight: 300;
+	margin-top: 4px;
+}
+
+.button{
+	transition: .3s;
+	position: absolute;
+	right: 0;
+	border: 1px #D22 solid ;
+}
+
+.button:hover{
+	border: 1px #D22 solid ;
+	background-color: #500;
 }
 
 .title{
-	margin-top: 0;
-}
-
-.text{
-	font-weight: 300;
-}
-
-.data {
-	font-weight: 800;
-	font-size: 18px;
-	margin-left: 5px;
+	margin: 20px;
+	text-align: left;
 }

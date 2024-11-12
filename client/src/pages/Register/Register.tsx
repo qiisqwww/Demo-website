@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { Button, DatePicker, Form, Input } from 'antd';
-import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, Navigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import styles from "../Form.module.css"
 import axios, { AxiosError } from 'axios';
 import Cookies from "js-cookie";
 import ErrorMessage from "../../components/ErrorMessage/Error"
+import { useCheckToken } from '../../hooks/checkToken';
 
 const saveTokenInCookie = (token:string):void => {
 	Cookies.set('token', token, {
-		expires: 7, // Expiration in days
-		secure: import.meta.env.NODE_ENV === 'production', // Secure in production
-		sameSite: 'Strict', // Adjust according to your needs
+		expires: 7,
+		secure: import.meta.env.NODE_ENV === 'production', 
+		sameSite: 'Strict',
 	});
 };
 
@@ -24,13 +25,13 @@ interface IFormValues {
 }
 
 export default function Register() {
-	const [isLogged, setIsLogged] = useState(false);
 	const [error, setError] = useState("");
+	const [registered, setRegistered] = useState(false);
+	const {isLogged, setIsLogged, isLoading, setIsLoading} = useCheckToken();
 
   const onSubmit = async (values:IFormValues) => {
-		console.log(values)
-		console.log(values.date.format("DD.MM.YYYY"))
 		try{
+			setIsLoading(true)
 			const response = await axios.post(`${import.meta.env.VITE_API_URL}/registration`, { 
 				username: values.username, 
 				email: values.email,
@@ -40,18 +41,25 @@ export default function Register() {
 			const token = response.data.token;
 			saveTokenInCookie(token);
 			setError("")
-			setIsLogged(true)
+			setRegistered(true)
+			setIsLogged(false)
 		}catch(error:unknown){
 			const e = error as AxiosError;
-			console.error("Ошибка при регистрации: " + e)
-			setError("Ошибка, попробуйте еще раз")
+			if (e.request.status === 422){
+				const message = JSON.parse(e.request.response)
+				setError(message.detail)
+			}else{
+				setError("Error, try again")
+			}
+		}finally{
+			setIsLoading(false)
 		}
-	} 
+	}
 
-	if(isLogged){
-		return <Navigate to="/me" />
-	}else{
-		return (
+	if(registered) return <Navigate to="/login" />
+	if(isLogged) return <Navigate to="/me" />
+	
+	return (
 		<>
 			<h1 className={styles.title}>Registration</h1>
 			<div className={styles.modal}>
@@ -145,13 +153,20 @@ export default function Register() {
 					</Form.Item>
 
 					<Form.Item className={styles.button}>
+					{isLoading ? 
+						<Button block type="primary" htmlType="submit" disabled>
+							Register
+							<LoadingOutlined style={{position: "absolute", right: 10 }}/>
+						</Button>
+						:
 						<Button block type="primary" htmlType="submit">
 							Register
 						</Button>
+						}
 						or <Link to="/login">Log in now!</Link>
 					</Form.Item>
 				</Form>	
 			</div>
 		</>
-	)}
+	)
 }
