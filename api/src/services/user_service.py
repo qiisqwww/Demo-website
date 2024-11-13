@@ -41,3 +41,12 @@ class UserService:
 
         user = await self._user_repository.insert_user(user_create_data)
         return UserData.model_validate(user)
+
+    async def set_profile_photo(self, user: UserData, user_image: bytes, filename: str) -> UserData:
+        with open(f"/app/images/{filename}", "wb") as file:
+            file.write(user_image)
+
+        user.photo_url = f"/images/{filename}"
+        await self._user_repository.set_user_photo_url(user.photo_url)
+
+        return user

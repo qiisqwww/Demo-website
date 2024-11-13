@@ -23,6 +23,7 @@ services:
     command: ["/app/scripts/app.sh"]
     volumes:
       - ./api/alembic/versions:/app/alembic/versions
+      - ./images:/app/images
     depends_on:
       postgres_daw:
         condition: service_healthy

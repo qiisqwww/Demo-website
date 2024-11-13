@@ -4,4 +4,4 @@
 node_modules
 *.key
 *.crt
-/images
+/images/user_*
