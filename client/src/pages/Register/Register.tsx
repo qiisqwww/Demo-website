@@ -109,7 +109,11 @@ export default function Register() {
 							}
 						]}
 					>
-						<DatePicker style={{width:"100%"}} placeholder="Birthday" format={"DD/MM/YY"}/>
+						<DatePicker 
+							style={{width:"100%"}} 
+							placeholder="Birthday" 
+							format={"DD.MM.YYYY"}
+							maxDate={dayjs()}/>
 					</Form.Item>
 
 					<Form.Item
