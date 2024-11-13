@@ -46,7 +46,8 @@
 
 .button:hover{
 	border: 1px #D22 solid ;
-	background-color: #500;
+	/* background-color: #500; */
+	box-shadow: 0 0 15px #500;
 }
 
 .title{
