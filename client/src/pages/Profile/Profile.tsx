@@ -7,22 +7,24 @@ import styles from "./Profile.module.css"
 import { Navigate } from "react-router-dom"
 import { Avatar, Modal } from "antd"
 import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons"
+import dayjs from 'dayjs';
 import CustomModal from "../../components/CustomModal/CustomModal"
 
 interface IProfileData{
 	username: string
 	email: string
-	birthdate: string
+	birthdate: dayjs.Dayjs
 }
 
 export default function Profile() {
 	const [isLogged, setIsLogged] = useState(true);
 	const [modal, contextHolder] = Modal.useModal()
+	const [age, setAge] = useState(0)
 
 	const [user, setUser] = useState<IProfileData>({
 		username: "",
 		email: "",
-		birthdate: ""
+		birthdate: dayjs()
 	})
 	const [loading, setLoading] = useState(true)
 
@@ -40,6 +42,8 @@ export default function Profile() {
 			setLoading(true)
 			const response = await axiosInstance.get<IProfileData>(`${import.meta.env.VITE_API_URL}/me`)
 			setUser(response.data)
+			console.log(user.birthdate)
+			setAge(dayjs().diff(user.birthdate, "year"))
 		}catch(e:unknown){
 			logout()
 			console.error(e)
@@ -85,7 +89,7 @@ export default function Profile() {
 								<h2 className={styles.username}>{user.username}</h2>
 								<div className={styles.flex}>
 									<h3 className={styles.email}>{user.email}</h3>
-									<span className={styles.birth}>({user.birthdate})</span>
+									<span className={styles.birth}>(age: {age})</span>
 								</div>
 							</div>
 							<button className={styles.button} onClick={confirm}>
