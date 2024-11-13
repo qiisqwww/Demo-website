@@ -17,7 +17,7 @@ profile_image_router = APIRouter()
 http_bearer = HTTPBearer()
 
 
-@profile_image_router.post("/profile-image")
+@profile_image_router.post("/profile-image", response_model=UserReturnData)
 async def set_profile_image(
         token: Annotated[HTTPAuthorizationCredentials, Depends(http_bearer)],
         auth_service: AuthService = Depends(get_auth_service),
