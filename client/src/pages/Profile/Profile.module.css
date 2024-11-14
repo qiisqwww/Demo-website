@@ -15,8 +15,12 @@
 .avatar{
 	width: 100px;
 	height: 100px;
-	border: 1px #ddd solid;
-	margin: 10px 30px 10px 10px;
+	/* border: 1px #ddd solid; */
+	border-radius: 100%;
+}
+
+.avatarUploader{
+	margin: 10px;
 }
 
 .username{
