@@ -20,7 +20,37 @@
 }
 
 .avatarUploader{
-	margin: 10px;
+	cursor: pointer;
+	width: 100px;
+	height: 100px;
+	margin: 10px 20px 10px 0;
+	/* border: 1px #fff solid; */
+	border-radius: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.avatarUploader:hover .editAvatar{
+	opacity: 1;
+}
+
+.editAvatar{
+	transition: .3s;
+	opacity: 0;
+	position: absolute;
+	top:0;
+	border-radius: 100%;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0,0,0,0.4);
+}
+
+.editAvatarIcon {
+	color: #fff;
+	font-size: 25px;
 }
 
 .username{
