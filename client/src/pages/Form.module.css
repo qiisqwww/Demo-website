@@ -1,8 +1,8 @@
 .modal {
 	margin: auto;
-	background-color: #fff;
+	background-color:#1F1F1F;
 	border-radius: 15px;
-	border: 1px #aaa solid;
+	border: 1px #1a1a1a solid;
 	padding: 40px;
 	width: 300px;
 	display: flex;

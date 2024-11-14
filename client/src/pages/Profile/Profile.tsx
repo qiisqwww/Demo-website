@@ -1,32 +1,67 @@
 // import React from 'react'
-
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import styles from "./Profile.module.css"
 import { Navigate } from "react-router-dom"
-import { Avatar, Modal } from "antd"
-import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons"
+import { message, Modal, Upload } from "antd"
+import { EditOutlined, ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons"
 import dayjs from 'dayjs';
 import CustomModal from "../../components/CustomModal/CustomModal"
+import { RcFile } from "antd/es/upload"
+import ImgCrop from 'antd-img-crop';
 
 interface IProfileData{
 	username: string
 	email: string
-	birthdate: dayjs.Dayjs
+	birthdate: dayjs.Dayjs,
+	photo_url: string
 }
 
 export default function Profile() {
 	const [isLogged, setIsLogged] = useState(true);
 	const [modal, contextHolder] = Modal.useModal()
 	const [age, setAge] = useState(0)
-
 	const [user, setUser] = useState<IProfileData>({
 		username: "",
 		email: "",
-		birthdate: dayjs()
+		birthdate: dayjs(),
+		photo_url: ""
 	})
 	const [loading, setLoading] = useState(true)
+
+	const changePhoto = async (file: RcFile): Promise<void> => {
+		try{
+			setLoading(true)
+			const formData = new FormData();
+    	formData.append('user_image', file);
+			const response = await axiosInstance.post(`${import.meta.env.VITE_API_URL}/profile-image`, formData)
+			setUser(response.data)
+		}catch(error: unknown){
+			const e = error as AxiosError;
+			if (e.request.status === 422){
+				const m = JSON.parse(e.request.response)
+				message.error(m.detail);
+			}
+		}finally{
+			setLoading(false)
+		}
+	}
+
+	const beforeUpload = (file: RcFile) => {
+		const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+		if (!isJpgOrPng) {
+			message.error('You can only upload JPG/PNG file!');
+		}
+		const isLt2M = file.size / 1024 / 1024 < 10;
+		if (!isLt2M) {
+			message.error('Image must smaller than 10MB!');
+		}
+		if (isJpgOrPng && isLt2M){
+			changePhoto(file)
+		}
+		return false;
+	};
 
 	const token = Cookies.get('token');
 
@@ -68,7 +103,6 @@ export default function Profile() {
 			onOk: logout
 		});
 	}
-	
 
 	useEffect(() => {
 		fetchData()
@@ -84,7 +118,20 @@ export default function Profile() {
 						<LoadingOutlined style={{position: "absolute", left: "50%", fontSize: 30, marginTop: 20}}/>
 						:
 						<div className={styles.flex}>
-							<Avatar className={styles.avatar} src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+							<ImgCrop rotationSlider>
+							<Upload
+								name="avatar"
+								listType="picture"
+								className={styles.avatarUploader}
+								showUploadList={false}
+								beforeUpload={beforeUpload}
+							>
+								<img src={import.meta.env.VITE_STATIC_URL + user.photo_url} alt="avatar" style={{ width: '100%' }} className={styles.avatar}/>
+								<div className={styles.editAvatar}>
+									<EditOutlined className={styles.editAvatarIcon}/>
+								</div>
+							</Upload>
+							</ImgCrop>
 							<div>
 								<h2 className={styles.username}>{user.username}</h2>
 								<div className={styles.flex}>
