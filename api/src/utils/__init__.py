@@ -1,7 +1,9 @@
 from .token_utils import TokenUtils
-from .passwd_utils import PasswdUtils
+from .password_utils import PasswordUtils
+from .image_validator import ImageValidator
 
 __all__ = [
     "TokenUtils",
-    "PasswdUtils",
+    "PasswordUtils",
+    "ImageValidator"
 ]

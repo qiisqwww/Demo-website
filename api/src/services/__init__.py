@@ -2,7 +2,10 @@ from .user_service import (
     UserService,
     EmailAlreadyUsedException,
     UsernameAlreadyUsedException,
-    CannotSaveImageException
+    CannotSaveImageException,
+    ImageFiletypeException,
+    ImageSizeException,
+    ImageAspectRatioException
 )
 from .auth_service import AuthService, UserIsNotActiveException, UserWasNotFoundException
 
@@ -14,4 +17,7 @@ __all__ = [
     'AuthService',
     "UserIsNotActiveException",
     "UserWasNotFoundException",
+    "ImageSizeException",
+    "ImageFiletypeException",
+    "ImageAspectRatioException"
 ]

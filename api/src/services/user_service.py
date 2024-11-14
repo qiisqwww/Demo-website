@@ -1,12 +1,17 @@
+from fastapi import UploadFile
+
 from src.repositories.i_user_repository import IUserRepository
 from src.schemas import UserInputData, UserCreateData, UserData
-from src.utils import PasswdUtils
+from src.utils import PasswordUtils, ImageValidator
 
 __all__ = [
     "UserService",
     "UsernameAlreadyUsedException",
     "EmailAlreadyUsedException",
-    "CannotSaveImageException"
+    "CannotSaveImageException",
+    "ImageSizeException",
+    "ImageFiletypeException",
+    "ImageAspectRatioException"
 ]
 
 
@@ -28,6 +33,24 @@ class CannotSaveImageException(Exception):
     """
 
 
+class ImageSizeException(Exception):
+    """
+    Raised when image size is too large (>10MB)
+    """
+
+
+class ImageFiletypeException(Exception):
+    """
+    Raised when received an image with unsupported filetype
+    """
+
+
+class ImageAspectRatioException(Exception):
+    """
+    Raised when received an image with unsupported aspect ratio
+    """
+
+
 class UserService:
     _user_repository: IUserRepository
 
@@ -43,16 +66,27 @@ class UserService:
         if user_email_exists:
             raise EmailAlreadyUsedException
 
-        hashed_password = PasswdUtils.hashed_password(user_register_data.password)
+        hashed_password = PasswordUtils.hashed_password(user_register_data.password)
         user_create_data = UserCreateData.get_from_register_data(user_register_data, hashed_password)
 
         user = await self._user_repository.insert_user(user_create_data)
         return UserData.model_validate(user)
 
-    async def set_profile_photo(self, user: UserData, user_image: bytes, filename: str) -> UserData:
+    async def set_profile_photo(self, user: UserData, user_image: UploadFile) -> UserData:
+        image_validator = ImageValidator(user_image)
+
+        if not image_validator.validate_size():
+            raise ImageSizeException
+        if not image_validator.validate_filetype():
+            raise ImageFiletypeException
+        if not await image_validator.validate_aspect_ratio():
+            raise ImageAspectRatioException
+
+        image_bytes = image_validator.image_bytes
+        filename = "user_" + user.username + '.' + image_validator.filetype
         try:
             with open(f"/app/images/{filename}", "wb") as file:
-                file.write(user_image)
+                file.write(image_bytes)
         except Exception as e:
             raise CannotSaveImageException from e
 
