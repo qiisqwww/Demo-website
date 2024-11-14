@@ -6,6 +6,7 @@ __all__ = [
     "UserService",
     "UsernameAlreadyUsedException",
     "EmailAlreadyUsedException",
+    "CannotSaveImageException"
 ]
 
 
@@ -18,6 +19,12 @@ class UsernameAlreadyUsedException(Exception):
 class EmailAlreadyUsedException(Exception):
     """
     Raised when trying to register user with email that already used
+    """
+
+
+class CannotSaveImageException(Exception):
+    """
+    Raised when cannot save an image in volume directory
     """
 
 
@@ -41,3 +48,15 @@ class UserService:
 
         user = await self._user_repository.insert_user(user_create_data)
         return UserData.model_validate(user)
+
+    async def set_profile_photo(self, user: UserData, user_image: bytes, filename: str) -> UserData:
+        try:
+            with open(f"/app/images/{filename}", "wb") as file:
+                file.write(user_image)
+        except Exception as e:
+            raise CannotSaveImageException from e
+
+        user.photo_url = f"/images/{filename}"
+        await self._user_repository.set_user_photo_url(user.photo_url)
+
+        return user

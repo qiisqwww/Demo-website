@@ -24,3 +24,7 @@ class IUserRepository(ABC):
     @abstractmethod
     async def find_user_by_email(self, email: str) -> User | None:
         ...
+
+    @abstractmethod
+    async def set_user_photo_url(self, photo_url: str) -> None:
+        ...

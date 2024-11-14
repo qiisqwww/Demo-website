@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, update
 
 from src.models import User
 from src.schemas import UserCreateData
@@ -42,3 +42,8 @@ class UserRepository(IUserRepository):
         user = self._session.scalar(stmt)
 
         return user
+
+    async def set_user_photo_url(self, photo_url: str) -> None:
+        stmt = update(self._model).values(photo_url=photo_url)
+        self._session.execute(stmt)
+        self._session.commit()

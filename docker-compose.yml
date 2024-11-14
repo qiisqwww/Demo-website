@@ -10,6 +10,7 @@ services:
       context: ./nginx
     volumes:
       - ./client/dist:/usr/share/nginx/html
+      - ./images:/usr/share/nginx/images
     ports:
       - "443:443"
 
@@ -22,6 +23,7 @@ services:
     command: ["/app/scripts/app.sh"]
     volumes:
       - ./api/alembic/versions:/app/alembic/versions
+      - ./images:/app/images
     depends_on:
       postgres_daw:
         condition: service_healthy
