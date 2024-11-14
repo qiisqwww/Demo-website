@@ -1,9 +1,16 @@
 // import React from 'react'
+import { ConfigProvider, theme } from "antd";
 import Layout from "./components/Layout/Layout";
 
 function App() {
   return (
-    <Layout />
+		<ConfigProvider
+			theme={{
+				algorithm: theme.darkAlgorithm,
+			}}
+		>
+    	<Layout />
+		</ConfigProvider>
   )
 }
 
