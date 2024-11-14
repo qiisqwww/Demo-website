@@ -6,7 +6,7 @@ _all__ = [
 ]
 
 
-class PasswdUtils:
+class PasswordUtils:
     @staticmethod
     def hashed_password(password: str) -> str:
         salt = gensalt()

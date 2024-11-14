@@ -6,7 +6,15 @@ from jwt import InvalidTokenError
 
 from src.schemas import UserReturnData
 from src.get_service import get_auth_service, get_user_service
-from src.services import AuthService, UserWasNotFoundException, UserService, CannotSaveImageException
+from src.services import (
+    AuthService,
+    UserWasNotFoundException,
+    UserService,
+    ImageSizeException,
+    ImageFiletypeException,
+    CannotSaveImageException,
+    ImageAspectRatioException
+)
 
 __all__ = [
     "profile_image_router",
@@ -39,15 +47,23 @@ async def set_profile_image(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    if user_image.size > 8 * 1024 * 1024:
+    try:
+        user = await user_service.set_profile_photo(user, user_image)
+    except ImageSizeException:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Image size is too large (>10MB)"
         )
-
-    filename = "user_" + user.username + '.' + user_image.filename.split('.')[-1]
-    try:
-        user = await user_service.set_profile_photo(user, await user_image.read(), filename)
+    except ImageFiletypeException:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Unsupported image filetype"
+        )
+    except ImageAspectRatioException:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Unsupported image aspect ratio"
+        )
     except CannotSaveImageException:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
