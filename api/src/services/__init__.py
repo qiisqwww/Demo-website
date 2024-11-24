@@ -5,7 +5,8 @@ from .user_service import (
     CannotSaveImageException,
     ImageFiletypeException,
     ImageSizeException,
-    ImageAspectRatioException
+    ImageAspectRatioException,
+    InvalidDataFormatException
 )
 from .auth_service import AuthService, UserIsNotActiveException, UserWasNotFoundException
 
@@ -19,5 +20,6 @@ __all__ = [
     "UserWasNotFoundException",
     "ImageSizeException",
     "ImageFiletypeException",
-    "ImageAspectRatioException"
+    "ImageAspectRatioException",
+    "InvalidDataFormatException"
 ]

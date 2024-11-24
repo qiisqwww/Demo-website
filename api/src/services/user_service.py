@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import UploadFile
 
 from src.repositories.i_user_repository import IUserRepository
@@ -11,7 +13,8 @@ __all__ = [
     "CannotSaveImageException",
     "ImageSizeException",
     "ImageFiletypeException",
-    "ImageAspectRatioException"
+    "ImageAspectRatioException",
+    "InvalidDataFormatException"
 ]
 
 
@@ -48,6 +51,12 @@ class ImageFiletypeException(Exception):
 class ImageAspectRatioException(Exception):
     """
     Raised when received an image with unsupported aspect ratio
+    """
+
+
+class InvalidDataFormatException(Exception):
+    """
+    Raised when received an invalid data format
     """
 
 
@@ -98,5 +107,16 @@ class UserService:
     async def edit_about(self, user: UserData, about: str) -> UserData:
         await self._user_repository.update_user_about_by_id(user.id, about)
         user.about = about
+
+        return user
+
+    async def edit_birthdate(self, user: UserData, birthdate: str) -> UserData:
+        try:
+            new_birthdate = datetime.strptime(birthdate, "%Y-%m-%d").date()
+        except ValueError:
+            raise InvalidDataFormatException
+
+        await self._user_repository.update_user_about_by_id(user.id, new_birthdate)
+        user.birthdate = new_birthdate
 
         return user

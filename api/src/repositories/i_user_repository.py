@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import date
 
 from src.schemas import UserCreateData
 from src.models import User
@@ -31,4 +32,8 @@ class IUserRepository(ABC):
 
     @abstractmethod
     async def update_user_about_by_id(self, user_id: int, about: str) -> None:
+        ...
+
+    @abstractmethod
+    async def update_user_birthdate_by_id(self, user_id: int, birthdate: date) -> None:
         ...

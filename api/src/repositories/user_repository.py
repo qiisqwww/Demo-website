@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update
 
@@ -50,5 +52,10 @@ class UserRepository(IUserRepository):  # TODO: use context managers for commiti
 
     async def update_user_about_by_id(self, user_id: int, about: str) -> None:
         stmt = update(self._model).where(self._model.id == user_id).values(about=about)
+        self._session.execute(stmt)
+        self._session.commit()
+
+    async def update_user_birthdate_by_id(self, user_id: int, birthdate: date) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(birthdate=birthdate)
         self._session.execute(stmt)
         self._session.commit()
