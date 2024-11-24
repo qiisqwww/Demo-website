@@ -72,7 +72,7 @@ class UserService:
         user = await self._user_repository.insert_user(user_create_data)
         return UserData.model_validate(user)
 
-    async def set_profile_photo(self, user: UserData, user_image: UploadFile) -> UserData:
+    async def edit_avatar(self, user: UserData, user_image: UploadFile) -> UserData:
         image_validator = ImageValidator(user_image)
 
         if not image_validator.validate_size():
@@ -91,6 +91,12 @@ class UserService:
             raise CannotSaveImageException from e
 
         user.photo_url = f"/images/{filename}"
-        await self._user_repository.set_user_photo_url(user.photo_url)
+        await self._user_repository.update_user_avatar_by_id(user.photo_url)  # TODO: find user by id
+
+        return user
+
+    async def edit_about(self, user: UserData, about: str) -> UserData:
+        await self._user_repository.update_user_about_by_id(user.id, about)
+        user.about = about
 
         return user

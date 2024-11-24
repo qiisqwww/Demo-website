@@ -43,7 +43,12 @@ class UserRepository(IUserRepository):
 
         return user
 
-    async def set_user_photo_url(self, photo_url: str) -> None:
+    async def update_user_avatar_by_id(self, photo_url: str) -> None:
         stmt = update(self._model).values(photo_url=photo_url)
+        self._session.execute(stmt)
+        self._session.commit()
+
+    async def update_user_about_by_id(self, user_id: int, about: str) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(about=about)
         self._session.execute(stmt)
         self._session.commit()

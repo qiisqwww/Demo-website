@@ -26,5 +26,9 @@ class IUserRepository(ABC):
         ...
 
     @abstractmethod
-    async def set_user_photo_url(self, photo_url: str) -> None:
+    async def update_user_avatar_by_id(self, photo_url: str) -> None:
+        ...
+
+    @abstractmethod
+    async def update_user_about_by_id(self, user_id: int, about: str) -> None:
         ...

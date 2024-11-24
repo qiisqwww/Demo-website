@@ -14,6 +14,7 @@ class UserData(BaseModel):
     email: EmailStr = Field(min_length=3, max_length=320)
     birthdate: date
     photo_url: str = Field(min_length=3, max_length=255)
+    about: str = Field(max_length=150)
     hashed_password: str
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
