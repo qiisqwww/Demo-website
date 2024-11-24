@@ -22,8 +22,8 @@ async def edit_about(
         token: Annotated[HTTPAuthorizationCredentials, Depends(http_bearer)],
         auth_service: AuthService = Depends(get_auth_service),
         user_service: UserService = Depends(get_user_service),
-        about: str = Body(min_length=5, max_length=150),
-) -> UserData:
+        about: str = Body(max_length=150, embed=True)
+):
     try:
         user = await auth_service.authorize(token.credentials)
     except InvalidTokenError:
@@ -40,3 +40,4 @@ async def edit_about(
         )
 
     edited_user = await user_service.edit_about(user, about)
+    return edited_user

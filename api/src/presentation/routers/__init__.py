@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from .auth import auth_routers
 from .profile import profile_routers
-from .healthcheck import healthcheck_router
+from .healthcheck_router import healthcheck_router
 
 __all__ = [
     "root_router"

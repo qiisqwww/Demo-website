@@ -91,7 +91,7 @@ class UserService:
             raise CannotSaveImageException from e
 
         user.photo_url = f"/images/{filename}"
-        await self._user_repository.update_user_avatar_by_id(user.photo_url)  # TODO: find user by id
+        await self._user_repository.update_user_avatar_by_id(user.id, user.photo_url)
 
         return user
 

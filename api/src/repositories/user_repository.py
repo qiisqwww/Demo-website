@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 
-class UserRepository(IUserRepository):
+class UserRepository(IUserRepository):  # TODO: use context managers for commiting & move to asyncpg
     _session: Session
     _model: type[User]
 
@@ -43,8 +43,8 @@ class UserRepository(IUserRepository):
 
         return user
 
-    async def update_user_avatar_by_id(self, photo_url: str) -> None:
-        stmt = update(self._model).values(photo_url=photo_url)
+    async def update_user_avatar_by_id(self, user_id: int, photo_url: str) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(photo_url=photo_url)
         self._session.execute(stmt)
         self._session.commit()
 
