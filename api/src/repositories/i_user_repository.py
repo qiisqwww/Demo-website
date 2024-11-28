@@ -37,3 +37,7 @@ class IUserRepository(ABC):
     @abstractmethod
     async def update_user_birthdate_by_id(self, user_id: int, birthdate: date) -> None:
         ...
+
+    @abstractmethod
+    async def update_user_email_by_id(self, user_id: int, email: str) -> None:
+        ...

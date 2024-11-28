@@ -13,7 +13,7 @@ registration_router = APIRouter()
 
 
 @registration_router.post("/registration", response_model=UserReturnData)
-async def register_user(user: UserInputData, user_service: UserService = Depends(get_user_service)) -> str:
+async def register_user(user: UserInputData, user_service: UserService = Depends(get_user_service)):
     try:
         user = await user_service.register(user)
     except UsernameAlreadyUsedException as e:

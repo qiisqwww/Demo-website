@@ -59,3 +59,8 @@ class UserRepository(IUserRepository):  # TODO: use context managers for commiti
         stmt = update(self._model).where(self._model.id == user_id).values(birthdate=birthdate)
         self._session.execute(stmt)
         self._session.commit()
+
+    async def update_user_email_by_id(self, user_id: int, email: str) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(email=email)
+        self._session.execute(stmt)
+        self._session.commit()
