@@ -19,6 +19,8 @@ class User(Base):
     photo_url: str = Column(String(length=255), server_default="/images/default.svg", nullable=False)
     about: str = Column(String(length=150), server_default="", nullable=False)
     hashed_password: str = Column(String(length=1024), nullable=False)  # type: ignore
+    role: str = Column(String, nullable=False, default="user")
+
     is_active = Column(Boolean, server_default='true', nullable=False)  # type: ignore
     is_superuser = Column(Boolean, server_default='false', nullable=False)  # type: ignore
     is_verified = Column(Boolean, server_default='false', nullable=False)  # type: ignore

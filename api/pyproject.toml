@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "demo-auth-website"
+name = "demo-website"
 version = "0.1.0"
-description = "Demo auth website"
+description = "Demo website"
 authors = ["qiisqwww <qiisqwww@gmail.com>"]
 readme = "README.md"
 
