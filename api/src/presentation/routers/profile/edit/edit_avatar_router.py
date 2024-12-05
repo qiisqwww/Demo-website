@@ -17,15 +17,15 @@ from src.services import (
 )
 
 __all__ = [
-    "profile_image_router",
+    "edit_avatar_router",
 ]
 
 
-profile_image_router = APIRouter()
+edit_avatar_router = APIRouter()
 http_bearer = HTTPBearer()
 
 
-@profile_image_router.post("/profile-image", response_model=UserReturnData)
+@edit_avatar_router.patch("/avatar", response_model=UserReturnData)
 async def set_profile_image(
         token: Annotated[HTTPAuthorizationCredentials, Depends(http_bearer)],
         auth_service: AuthService = Depends(get_auth_service),
@@ -48,7 +48,7 @@ async def set_profile_image(
         )
 
     try:
-        user = await user_service.set_profile_photo(user, user_image)
+        edited_user = await user_service.edit_avatar(user, user_image)
     except ImageSizeException:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -70,4 +70,4 @@ async def set_profile_image(
             detail="Cannot save user's image (unexpected)"
         )
 
-    return user
+    return edited_user

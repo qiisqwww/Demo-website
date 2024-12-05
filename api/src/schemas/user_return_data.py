@@ -15,6 +15,7 @@ class UserReturnData(BaseModel):
     email: EmailStr = Field(min_length=3, max_length=320)
     birthdate: date
     photo_url: str = Field(min_length=3, max_length=255)
+    about: str = Field(max_length=150)
 
     @classmethod
     def from_user(cls, user: User) -> Self:
@@ -22,5 +23,6 @@ class UserReturnData(BaseModel):
             username=user.username,
             email=user.email,
             birthdate=user.birthdate,
-            photo_url=user.photo_url
+            photo_url=user.photo_url,
+            about=user.about
         )

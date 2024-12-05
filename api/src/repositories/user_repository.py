@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update
 
@@ -10,7 +12,7 @@ __all__ = [
 ]
 
 
-class UserRepository(IUserRepository):
+class UserRepository(IUserRepository):  # TODO: use context managers for commiting & move to asyncpg
     _session: Session
     _model: type[User]
 
@@ -43,7 +45,22 @@ class UserRepository(IUserRepository):
 
         return user
 
-    async def set_user_photo_url(self, photo_url: str) -> None:
-        stmt = update(self._model).values(photo_url=photo_url)
+    async def update_user_avatar_by_id(self, user_id: int, photo_url: str) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(photo_url=photo_url)
+        self._session.execute(stmt)
+        self._session.commit()
+
+    async def update_user_about_by_id(self, user_id: int, about: str) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(about=about)
+        self._session.execute(stmt)
+        self._session.commit()
+
+    async def update_user_birthdate_by_id(self, user_id: int, birthdate: date) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(birthdate=birthdate)
+        self._session.execute(stmt)
+        self._session.commit()
+
+    async def update_user_email_by_id(self, user_id: int, email: str) -> None:
+        stmt = update(self._model).where(self._model.id == user_id).values(email=email)
         self._session.execute(stmt)
         self._session.commit()

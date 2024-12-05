@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from fastapi import UploadFile
+from pydantic import EmailStr
 
 from src.repositories.i_user_repository import IUserRepository
 from src.schemas import UserInputData, UserCreateData, UserData
@@ -11,7 +14,8 @@ __all__ = [
     "CannotSaveImageException",
     "ImageSizeException",
     "ImageFiletypeException",
-    "ImageAspectRatioException"
+    "ImageAspectRatioException",
+    "InvalidDataFormatException"
 ]
 
 
@@ -51,6 +55,12 @@ class ImageAspectRatioException(Exception):
     """
 
 
+class InvalidDataFormatException(Exception):
+    """
+    Raised when received an invalid data format
+    """
+
+
 class UserService:
     _user_repository: IUserRepository
 
@@ -72,7 +82,7 @@ class UserService:
         user = await self._user_repository.insert_user(user_create_data)
         return UserData.model_validate(user)
 
-    async def set_profile_photo(self, user: UserData, user_image: UploadFile) -> UserData:
+    async def edit_avatar(self, user: UserData, user_image: UploadFile) -> UserData:
         image_validator = ImageValidator(user_image)
 
         if not image_validator.validate_size():
@@ -91,6 +101,29 @@ class UserService:
             raise CannotSaveImageException from e
 
         user.photo_url = f"/images/{filename}"
-        await self._user_repository.set_user_photo_url(user.photo_url)
+        await self._user_repository.update_user_avatar_by_id(user.id, user.photo_url)
 
         return user
+
+    async def edit_about(self, user: UserData, about: str) -> UserData:
+        await self._user_repository.update_user_about_by_id(user.id, about)
+        user.about = about
+
+        return user
+
+    async def edit_birthdate(self, user: UserData, birthdate: str) -> UserData:
+        try:
+            new_birthdate = datetime.strptime(birthdate, "%Y-%m-%d").date()
+        except ValueError:
+            raise InvalidDataFormatException
+
+        await self._user_repository.update_user_birthdate_by_id(user.id, new_birthdate)
+        user.birthdate = new_birthdate
+
+        return user
+
+    async def edit_email(self, user: UserData, new_email: EmailStr) -> UserData:
+        user_email_exists = await self._user_repository.find_user_by_email(new_email)
+        if user_email_exists:
+            raise EmailAlreadyUsedException
+

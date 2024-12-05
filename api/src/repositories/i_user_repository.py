@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import date
 
 from src.schemas import UserCreateData
 from src.models import User
@@ -26,5 +27,17 @@ class IUserRepository(ABC):
         ...
 
     @abstractmethod
-    async def set_user_photo_url(self, photo_url: str) -> None:
+    async def update_user_avatar_by_id(self, user_id: int, photo_url: str) -> None:
+        ...
+
+    @abstractmethod
+    async def update_user_about_by_id(self, user_id: int, about: str) -> None:
+        ...
+
+    @abstractmethod
+    async def update_user_birthdate_by_id(self, user_id: int, birthdate: date) -> None:
+        ...
+
+    @abstractmethod
+    async def update_user_email_by_id(self, user_id: int, email: str) -> None:
         ...
