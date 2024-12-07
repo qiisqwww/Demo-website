@@ -8,6 +8,7 @@ from src.services import UserService, AuthService, RefillService
 __all__ = [
     "get_user_service",
     "get_auth_service",
+    "get_refill_service"
 ]
 
 
@@ -19,7 +20,7 @@ def get_auth_service(session: Session = Depends(get_session)) -> AuthService:
     return AuthService(UserRepository(session=session))
 
 
-def refill_service(session: Session = Depends(get_session)) -> RefillService:
+def get_refill_service(session: Session = Depends(get_session)) -> RefillService:
     return RefillService(
         RefillRepository(session=session),
         RefillRentRepository(session=session)

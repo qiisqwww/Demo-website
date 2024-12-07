@@ -5,7 +5,7 @@ from sqlalchemy import select, insert, update
 
 from src.models import User
 from src.schemas import UserCreateData
-from repositories.interfaces.i_user_repository import IUserRepository
+from src.repositories.interfaces import IUserRepository
 
 __all__ = [
     "UserRepository",
