@@ -9,6 +9,7 @@ from .user_service import (
     InvalidDataFormatException
 )
 from .auth_service import AuthService, UserIsNotActiveException, UserWasNotFoundException
+from .refill_service import RefillService
 
 __all__ = [
     'UserService',
@@ -21,5 +22,6 @@ __all__ = [
     "ImageSizeException",
     "ImageFiletypeException",
     "ImageAspectRatioException",
-    "InvalidDataFormatException"
+    "InvalidDataFormatException",
+    "RefillService",
 ]
