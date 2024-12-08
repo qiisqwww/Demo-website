@@ -1,90 +1,117 @@
-.page{
-	position: absolute;
-	top: 10px;
-	left: 50%;
-	transform: translateX(-50%);
-	max-width: 1000px;
-	width: 700px;
+.page {
+  position: absolute;
+  top: 00px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 1000px;
+  width: 700px;
+  height: 100%;
 }
 
-.flex{
-	display: flex;
-	align-items: center;
+.flex {
+  display: flex;
+  align-items: center;
 }
 
-.avatar{
-	width: 100px;
-	height: 100px;
-	/* border: 1px #ddd solid; */
-	border-radius: 100%;
+.avatar {
+  width: 100px;
+  height: 100px;
+  /* border: 1px #ddd solid; */
+  border-radius: 100%;
 }
 
-.avatarUploader{
-	cursor: pointer;
-	width: 100px;
-	height: 100px;
-	margin: 10px 20px 10px 0;
-	/* border: 1px #fff solid; */
-	border-radius: 100%;
-	overflow: hidden;
-	position: relative;
+.avatarUploader {
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  margin: 10px 20px 10px 0;
+  /* border: 1px #fff solid; */
+  border-radius: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
-.avatarUploader:hover .editAvatar{
-	opacity: 1;
+.avatarUploader:hover .editAvatar {
+  opacity: 1;
 }
 
-.editAvatar{
-	transition: .3s;
-	opacity: 0;
-	position: absolute;
-	top:0;
-	border-radius: 100%;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(0,0,0,0.4);
+.editAvatar {
+  transition: 0.3s;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  border-radius: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .editAvatarIcon {
-	color: #fff;
-	font-size: 25px;
+  color: #fff;
+  font-size: 25px;
 }
 
-.username{
-	margin: 0;
-	font-size: 40px;
+.username {
+  margin: 0;
+  font-size: 40px;
 }
 
-.email{
-	margin: 0;
-	font-weight: 300;
-	font-size: 16px;
+.email {
+  margin: 0;
+  font-weight: 300;
+  font-size: 16px;
 }
 
-.birth{
-	margin-left: 10px;
-	font-size: 11px;
-	font-weight: 300;
-	margin-top: 2px;
+.birth {
+  margin-left: 10px;
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 2px;
 }
 
-.button{
-	transition: .3s;
-	position: absolute;
-	right: 0;
-	border: 1px #D22 solid ;
+.button {
+  transition: 0.3s;
+  position: absolute;
+  right: 0;
+  border: 1px #d22 solid;
 }
 
-.button:hover{
-	border: 1px #D22 solid ;
-	/* background-color: #500; */
-	box-shadow: 0 0 15px #500;
+.button:hover {
+  border: 1px #d22 solid;
+  /* background-color: #500; */
+  box-shadow: 0 0 15px #500;
 }
 
-.title{
-	margin: 20px;
-	text-align: left;
+.title {
+  margin: 20px;
+  text-align: left;
+}
+
+.admin {
+  color: #d22;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.adminPanel {
+  position: absolute;
+  bottom: 5px;
+}
+
+.addRefill {
+  transition: 0.5s;
+  border: 1px solid seagreen;
+}
+
+.addRefill:hover {
+  border: 1px solid seagreen;
+  background-color: rgb(54, 54, 54);
+}
+
+.profile {
+  position: relative;
+  height: calc(100% - 150px);
 }
