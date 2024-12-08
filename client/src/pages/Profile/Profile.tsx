@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import styles from "./Profile.module.css";
@@ -14,14 +14,8 @@ import CustomModal from "../../components/CustomModal/CustomModal";
 import { RcFile } from "antd/es/upload";
 import ImgCrop from "antd-img-crop";
 import { IRefill } from "../../interfaces/refill";
-
-interface IProfileData {
-  username: string;
-  email: string;
-  birthdate: dayjs.Dayjs;
-  photo_url: string;
-  role: string;
-}
+import { getAxiosInstance } from "../../scripts/axiosInstance";
+import { IProfileData } from "../../interfaces/profile";
 
 export default function Profile() {
   const [isLogged, setIsLogged] = useState(true);
@@ -37,6 +31,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [addRefillModal, setAddRefillModal] = useState(false);
   const [form] = Form.useForm();
+  const axiosInstance = getAxiosInstance();
 
   const changePhoto = async (file: RcFile): Promise<void> => {
     try {
@@ -74,15 +69,6 @@ export default function Profile() {
     return false;
   };
 
-  const token = Cookies.get("token");
-
-  const axiosInstance = axios.create({
-    baseURL: `${import.meta.env.VITE_API_URL}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -102,7 +88,6 @@ export default function Profile() {
 
   const createRefill = async (refill: IRefill) => {
     try {
-      console.log(refill);
       const response = await axiosInstance.post<IRefill>(
         `${import.meta.env.VITE_API_URL}/refill/create`,
         refill
