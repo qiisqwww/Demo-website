@@ -1,4 +1,4 @@
-from repositories.interfaces import IUserRepository
+from src.repositories.interfaces import IUserRepository
 from src.utils import PasswordUtils, TokenUtils
 from src.schemas import Token, UserData
 

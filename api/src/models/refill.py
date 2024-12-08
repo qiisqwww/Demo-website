@@ -8,7 +8,7 @@ __all__ = [
 
 
 class Refill(Base):
-    __tablename__ = "refill"
+    __tablename__ = "refills"
 
     id = Column(Integer, primary_key=True, unique=True)
     address = Column(String(length=255), nullable=False)

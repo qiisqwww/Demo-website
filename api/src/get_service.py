@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 
 from src.database import get_session
-from repositories.impls import UserRepository, RefillRepository, RefillRentRepository
+from src.repositories.impls import UserRepository, RefillRepository, RefillRentRepository
 from src.services import UserService, AuthService, RefillService
 
 __all__ = [

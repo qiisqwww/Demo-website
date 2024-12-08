@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi import UploadFile
 
-from repositories.interfaces import IUserRepository
+from src.repositories.interfaces import IUserRepository
 from src.schemas import UserInputData, UserCreateData, UserData
 from src.utils import PasswordUtils, ImageValidator
 

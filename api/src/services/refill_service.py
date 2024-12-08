@@ -64,10 +64,11 @@ class RefillService:
 
     async def finish_refill_rent(self, user_id: int, rent_id: int) -> RefillRent:
         user_unfinished_rent = await self._refill_rent_repository.find_user_unfinished_rent(user_id)
-        if not user_unfinished_rent or user_unfinished_rent.user_id != user_id:
+        refill_rent_raw = await self._refill_rent_repository.finish_rent(rent_id)
+
+        if not user_unfinished_rent or user_unfinished_rent.user_id != user_id or not refill_rent_raw:
             raise CannotFinishRentException
 
-        refill_rent_raw = await self._refill_rent_repository.finish_rent(rent_id)
         return RefillRent.model_validate(refill_rent_raw)
 
     async def get_refill_info(self, refill_id: int) -> Refill:

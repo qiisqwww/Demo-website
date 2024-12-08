@@ -14,6 +14,6 @@ engine = create_engine(DATABASE_URL)
 session_maker = sessionmaker(engine, class_=Session, expire_on_commit=False)
 
 
-def get_session():
+def get_session() -> Generator[Session, None, None]:
     with session_maker() as session:
         yield session
