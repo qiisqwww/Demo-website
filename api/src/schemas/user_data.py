@@ -16,6 +16,7 @@ class UserData(BaseModel):
     photo_url: str = Field(min_length=3, max_length=255)
     about: str = Field(max_length=150)
     hashed_password: str
+    role: str
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
     is_verified: Optional[bool] = False

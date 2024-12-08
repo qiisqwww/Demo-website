@@ -1,5 +1,7 @@
 FROM python:3.12-alpine
 
+# Необходим для healthcheck
+RUN apk add --no-cache curl
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1 \
@@ -21,7 +23,5 @@ RUN poetry config virtualenvs.create false && poetry install --no-dev --no-inter
 COPY src /app/src
 COPY alembic /app/alembic
 COPY alembic.ini /app/alembic.ini
-COPY scripts/app.sh /app/scripts/app.sh
 
-# Необходим для healthcheck
-RUN apk add --no-cache curl
+CMD ["python", "-m", "src"]

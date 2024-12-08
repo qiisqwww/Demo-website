@@ -16,6 +16,7 @@ class UserReturnData(BaseModel):
     birthdate: date
     photo_url: str = Field(min_length=3, max_length=255)
     about: str = Field(max_length=150)
+    role: str
 
     @classmethod
     def from_user(cls, user: User) -> Self:
