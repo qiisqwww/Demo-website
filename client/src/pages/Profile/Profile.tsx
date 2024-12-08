@@ -2,8 +2,8 @@ import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import styles from "./Profile.module.css";
-import { Navigate } from "react-router-dom";
-import { Form, Input, message, Modal, Radio, Upload } from "antd";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Form, Input, List, message, Modal, Radio, Upload } from "antd";
 import {
   EditOutlined,
   ExclamationCircleOutlined,
@@ -16,6 +16,7 @@ import ImgCrop from "antd-img-crop";
 import { IRefill } from "../../interfaces/refill";
 import { getAxiosInstance } from "../../scripts/axiosInstance";
 import { IProfileData } from "../../interfaces/profile";
+import { IListRefills } from "../../interfaces/lastRefills";
 
 export default function Profile() {
   const [isLogged, setIsLogged] = useState(true);
@@ -30,8 +31,10 @@ export default function Profile() {
   });
   const [loading, setLoading] = useState(true);
   const [addRefillModal, setAddRefillModal] = useState(false);
+  const [lastCharges, setlastCharges] = useState<IListRefills[]>([]);
   const [form] = Form.useForm();
   const axiosInstance = getAxiosInstance();
+  const navigate = useNavigate();
 
   const changePhoto = async (file: RcFile): Promise<void> => {
     try {
@@ -86,6 +89,19 @@ export default function Profile() {
     }
   };
 
+  const fetchLastRefills = async () => {
+    try {
+      const response = await axiosInstance.get<IListRefills[]>(
+        `${import.meta.env.VITE_API_URL}/refill/rent/last`
+      );
+      if (response.status === 200) {
+        setlastCharges(response.data);
+      }
+    } catch (e: unknown) {
+      console.error(e);
+    }
+  };
+
   const createRefill = async (refill: IRefill) => {
     try {
       const response = await axiosInstance.post<IRefill>(
@@ -119,6 +135,7 @@ export default function Profile() {
 
   useEffect(() => {
     fetchData();
+    fetchLastRefills();
   }, []);
 
   if (isLogged) {
@@ -172,6 +189,31 @@ export default function Profile() {
                   Log out
                 </button>
               </div>
+              <h3>История зарядок</h3>
+              <List
+                className={styles.list}
+                loading={loading}
+                itemLayout="horizontal"
+                dataSource={lastCharges}
+                renderItem={(item) => (
+                  <List.Item>
+                    <p>{item.refill_id}</p>
+                    <p>
+                      {dayjs(item.time_start).format("DD-MM-YYYY | HH:mm:ss")}
+                    </p>
+                    {item.time_end && (
+                      <p>
+                        {dayjs(item.time_end).format("DD-MM-YYYY | HH:mm:ss")}
+                      </p>
+                    )}
+                    <button
+                      onClick={() => navigate(`/refill/${item.refill_id}`)}
+                    >
+                      перейти
+                    </button>
+                  </List.Item>
+                )}
+              ></List>
               {user.role === "admin" && (
                 <div className={styles.adminPanel}>
                   <button

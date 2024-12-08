@@ -1,18 +1,10 @@
-import dayjs from "dayjs";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { IRefill } from "../../interfaces/refill";
 import { useEffect, useState } from "react";
 import { IProfileData } from "../../interfaces/profile";
 import { getAxiosInstance } from "../../scripts/axiosInstance";
-
-interface IListRefills {
-  id: number;
-  refill_id: number;
-  time_end: dayjs.Dayjs | null;
-  time_start: dayjs.Dayjs;
-  user_id: number;
-}
+import { IListRefills } from "../../interfaces/lastRefills";
 
 export default function Refill() {
   const { id } = useParams();
