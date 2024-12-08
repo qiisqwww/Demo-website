@@ -21,7 +21,7 @@ class UserRepository(IUserRepository):  # TODO: use context managers for commiti
         self._model = User
 
     async def insert_user(self, user_create_data: UserCreateData) -> User:
-        stmt = (insert(self._model).values(**user_create_data.dict()).returning(self._model))
+        stmt = (insert(self._model).values(**user_create_data.model_dump()).returning(self._model))
         result = self._session.execute(stmt)
         self._session.commit()
 
