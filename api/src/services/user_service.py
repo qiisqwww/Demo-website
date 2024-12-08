@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from fastapi import UploadFile
+from pydantic import EmailStr
 
 from src.repositories.interfaces import IUserRepository
 from src.schemas import UserInputData, UserCreateData, UserData
@@ -116,7 +117,13 @@ class UserService:
         except ValueError:
             raise InvalidDataFormatException
 
-        await self._user_repository.update_user_about_by_id(user.id, new_birthdate)
+        await self._user_repository.update_user_birthdate_by_id(user.id, new_birthdate)
         user.birthdate = new_birthdate
 
         return user
+
+    async def edit_email(self, user: UserData, new_email: EmailStr) -> UserData:
+        user_email_exists = await self._user_repository.find_user_by_email(new_email)
+        if user_email_exists:
+            raise EmailAlreadyUsedException
+
