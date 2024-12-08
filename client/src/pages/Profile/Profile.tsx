@@ -111,7 +111,7 @@ export default function Profile() {
     } catch (e: unknown) {
       console.error(e);
     } finally {
-      // setAddRefillModal(false);
+      setAddRefillModal(false);
     }
   };
 

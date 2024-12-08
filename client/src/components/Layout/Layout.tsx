@@ -6,6 +6,7 @@ import Profile from "../../pages/Profile/Profile";
 import NotFound from "../../pages/NotFound/NotFound";
 import styles from "./Layout.module.css";
 import Refills from "../../pages/Refills/Refills";
+import Refill from "../../pages/Refill/Refill";
 
 export default function Layout() {
   return (
@@ -21,6 +22,7 @@ export default function Layout() {
       <Route path="/login" element={<Login />} />
       <Route path="/refills" element={<Refills />} />
       <Route path="/registration" element={<Register />} />
+      <Route path="/refill/:id" element={<Refill />} />
       <Route path="/me" element={<Profile />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
