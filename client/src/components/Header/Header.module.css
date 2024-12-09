@@ -1,0 +1,17 @@
+.header {
+  position: relative;
+  top: 0;
+  width: 100%;
+  max-width: 1600px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login {
+  border: 1px #fff solid;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: #fff;
+}

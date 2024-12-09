@@ -30,23 +30,30 @@ export default function Refills() {
   }, []);
 
   return (
-    <div>
+    <section className={styles.page}>
+      <h2>Зарядные станции</h2>
       <List
         className={styles.list}
         loading={initLoading}
         itemLayout="horizontal"
         dataSource={data}
+        split={false}
         renderItem={(item) => (
-          <List.Item>
+          <List.Item className={styles.listItem}>
+            <p>Станция №{item.id}</p>
             <p>{item.address}</p>
-            <p>{item.power}</p>
-            <p>{item.id}</p>
+            <p>{item.power}W</p>
+            {item.is_active ? (
+              <p className={styles.active}>Активна</p>
+            ) : (
+              <p className={styles.inactive}>Неактивна</p>
+            )}
             <button onClick={() => navigate(`/refill/${item.id}`)}>
               перейти
             </button>
           </List.Item>
         )}
       />
-    </div>
+    </section>
   );
 }

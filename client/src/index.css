@@ -1,8 +1,13 @@
-:root {
-  font-family: Inter, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Comfortaa", sans-serif;
+  line-height: 1.5;
+  font-weight: normal;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #141414;
@@ -11,36 +16,30 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
 
 a {
   font-weight: 500;
-  color: #1668DC;
+  color: #1668dc;
   text-decoration: inherit;
 }
 a:hover {
-  color: #3F8FFF;
+  color: #3f8fff;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-height: 100vh;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-	width: 100%;
-	text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 button {
+  transition: 0.5s;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -49,10 +48,9 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: #303030;
 }
 
 @media (prefers-color-scheme: light) {

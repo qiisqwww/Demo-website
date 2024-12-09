@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { IProfileData } from "../../interfaces/profile";
 import { getAxiosInstance } from "../../scripts/axiosInstance";
 import { IListRefills } from "../../interfaces/lastRefills";
+import styles from "./Refill.module.css";
 
 export default function Refill() {
   const { id } = useParams();
@@ -131,22 +132,39 @@ export default function Refill() {
   }, []);
 
   return (
-    <>
-      {isAdmin && <button onClick={() => deleteRefill()}>Delete</button>}
+    <section className={styles.page}>
+      {isAdmin && (
+        <button className={styles.delete} onClick={() => deleteRefill()}>
+          Удалить
+        </button>
+      )}
       {isExist ? (
         <div>
-          <p>address: {refill.address}</p>
-          <p>power: {refill.power}</p>
-          {refill.is_active ? <p>active</p> : <p>inacive</p>}
-          {isCharging ? (
-            <button onClick={() => finish()}>Остановиться</button>
+          <h2>Cтанция №{id}</h2>
+          <p>Адрес зарядной станции: {refill.address}</p>
+          <p>Мощность: {refill.power}W</p>
+          {refill.is_active ? (
+            <p className={styles.active}>Активна</p>
           ) : (
-            <button onClick={() => charge()}>Зарядиться</button>
+            <p className={styles.inactive}>Неактивна</p>
+          )}
+          {isCharging ? (
+            <button className={styles.finish} onClick={() => finish()}>
+              Завершить зарядку
+            </button>
+          ) : (
+            <button
+              className={styles.start}
+              onClick={() => charge()}
+              disabled={!refill.is_active}
+            >
+              Начать зарядку
+            </button>
           )}
         </div>
       ) : (
         <p>refill doesn't exist</p>
       )}
-    </>
+    </section>
   );
 }

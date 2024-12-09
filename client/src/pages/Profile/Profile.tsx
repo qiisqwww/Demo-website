@@ -17,8 +17,10 @@ import { IRefill } from "../../interfaces/refill";
 import { getAxiosInstance } from "../../scripts/axiosInstance";
 import { IProfileData } from "../../interfaces/profile";
 import { IListRefills } from "../../interfaces/lastRefills";
+import { useUser } from "../../context/UserContext";
 
 export default function Profile() {
+  const { login, logout } = useUser();
   const [isLogged, setIsLogged] = useState(true);
   const [modal, contextHolder] = Modal.useModal();
   const [age, setAge] = useState(0);
@@ -79,6 +81,7 @@ export default function Profile() {
         `${import.meta.env.VITE_API_URL}/profile/me`
       );
       setUser(response.data);
+      login(response.data.username);
       console.log(user.birthdate);
       setAge(dayjs().diff(user.birthdate, "year"));
     } catch (e: unknown) {
@@ -116,20 +119,21 @@ export default function Profile() {
     }
   };
 
-  const logout = () => {
+  const logoutUser = () => {
     Cookies.remove("token");
     setIsLogged(false);
+    logout();
   };
 
   const confirm = () => {
     modal.confirm({
-      title: "Log out???",
-      content: "Are you sure you want to log out?",
+      title: "Выйти???",
+      content: "Выуверены что хотите выйти?",
       icon: <ExclamationCircleOutlined style={{ color: "#D00" }} />,
-      okText: "Yes",
-      cancelText: "No",
+      okText: "Да",
+      cancelText: "Нет",
       centered: true,
-      onOk: logout,
+      onOk: logoutUser,
     });
   };
 
@@ -142,8 +146,6 @@ export default function Profile() {
     return (
       <>
         <div className={styles.page}>
-          <h1 className={styles.title}>Profile</h1>
-          <hr />
           {loading ? (
             <LoadingOutlined
               style={{
@@ -176,34 +178,42 @@ export default function Profile() {
                   </Upload>
                 </ImgCrop>
                 <div>
-                  <h2 className={styles.username}>{user.username}</h2>
                   <div className={styles.flex}>
-                    <h3 className={styles.email}>{user.email}</h3>
-                    <span className={styles.birth}>(age: {age})</span>
+                    <h2 className={styles.username}>{user.username}</h2>
                     {user.role === "admin" && (
                       <span className={styles.admin}>admin</span>
                     )}
                   </div>
+                  <h3 className={styles.email}>{user.email}</h3>
+                  <span className={styles.birth}>(age: {age})</span>
                 </div>
                 <button className={styles.button} onClick={confirm}>
-                  Log out
+                  Выйти
                 </button>
               </div>
+              <hr />
               <h3>История зарядок</h3>
               <List
                 className={styles.list}
                 loading={loading}
+                split={false}
                 itemLayout="horizontal"
                 dataSource={lastCharges}
                 renderItem={(item) => (
-                  <List.Item>
-                    <p>{item.refill_id}</p>
+                  <List.Item className={styles.listItem}>
+                    <p>Станция №{item.refill_id}</p>
                     <p>
-                      {dayjs(item.time_start).format("DD-MM-YYYY | HH:mm:ss")}
+                      Начало зарядки:{" "}
+                      <span className={styles.date}>
+                        {dayjs(item.time_start).format("DD-MM-YYYY | HH:mm:ss")}
+                      </span>
                     </p>
                     {item.time_end && (
                       <p>
-                        {dayjs(item.time_end).format("DD-MM-YYYY | HH:mm:ss")}
+                        Конец зарядки:{" "}
+                        <span className={styles.date}>
+                          {dayjs(item.time_end).format("DD-MM-YYYY | HH:mm:ss")}
+                        </span>
                       </p>
                     )}
                     <button
@@ -220,7 +230,7 @@ export default function Profile() {
                     className={styles.addRefill}
                     onClick={() => setAddRefillModal(true)}
                   >
-                    create refill
+                    Добавить станцию
                   </button>
                 </div>
               )}
@@ -230,9 +240,9 @@ export default function Profile() {
         <Modal
           open={addRefillModal}
           centered
-          title="Create a new refill"
-          okText="Create"
-          cancelText="Cancel"
+          title="Добавление новой зарядной станции"
+          okText="Добавить"
+          cancelText="Отмена"
           okButtonProps={{ autoFocus: true, htmlType: "submit" }}
           onCancel={() => setAddRefillModal(false)}
           destroyOnClose
@@ -254,11 +264,11 @@ export default function Profile() {
         >
           <Form.Item
             name="address"
-            label="Address"
+            label="Адрес зарядной станции"
             rules={[
               {
                 required: true,
-                message: "Please input the address of refill!",
+                message: "Пожалуйста, заполните поле с адресом!",
               },
             ]}
           >
@@ -266,11 +276,11 @@ export default function Profile() {
           </Form.Item>
           <Form.Item
             name="power"
-            label="Power"
+            label="Мощность"
             rules={[
               {
                 required: true,
-                message: "Please input the power of refill!",
+                message: "Пожалйста, введите мощность зарядной станции",
               },
             ]}
           >
@@ -278,17 +288,17 @@ export default function Profile() {
           </Form.Item>
           <Form.Item
             name="is_active"
-            label="Activity"
+            label="Активность"
             rules={[
               {
                 required: true,
-                message: "Please select activity",
+                message: "Пожалуйста, выберите состояние зарядного устройства",
               },
             ]}
           >
             <Radio.Group>
-              <Radio value="true">Active</Radio>
-              <Radio value="false">Inactive</Radio>
+              <Radio value="true">Активна</Radio>
+              <Radio value="false">Неактивна</Radio>
             </Radio.Group>
           </Form.Item>
         </Modal>

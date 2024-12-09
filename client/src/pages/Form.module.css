@@ -1,31 +1,31 @@
 .modal {
-	margin: auto;
-	background-color:#1F1F1F;
-	border-radius: 15px;
-	border: 1px #1a1a1a solid;
-	padding: 40px;
-	width: 300px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  margin: auto;
+  background-color: #1f1f1f;
+  border-radius: 15px;
+  border: 1px #1a1a1a solid;
+  padding: 40px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button {
-	margin: 0;
+  margin: 0;
 }
 
 .title {
-	margin-bottom: 10px;
-	font-size: 30px;
-	color: #fff;
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: #fff;
 }
 
-.loading{
-	/* width: 100px;
+.loading {
+  /* width: 100px;
 	height: 100px; */
-	position: absolute;
-	top:10px;
-	left: 50%;
-	font-size: 30px;
-	transform:translateX(-50%);
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  font-size: 30px;
+  transform: translateX(-50%);
 }
