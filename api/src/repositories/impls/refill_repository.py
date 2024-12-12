@@ -25,7 +25,7 @@ class RefillRepository(IRefillRepository):
         return result.scalar()
 
     async def delete_refill(self, refill_id: int) -> Refill:
-        stmt = delete(self._model).where(self._model.id == refill_id)
+        stmt = delete(self._model).where(self._model.id == refill_id).returning(self._model)
         result = self._session.execute(stmt)
         self._session.commit()
 

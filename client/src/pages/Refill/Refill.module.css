@@ -1,0 +1,29 @@
+.page {
+  padding: 0 70px;
+}
+
+.active {
+  color: green;
+}
+
+.inactive {
+  color: brown;
+}
+
+.start {
+  border: 1px green solid;
+}
+
+.start:disabled {
+  cursor: not-allowed;
+}
+
+.finish {
+  border: 1px brown solid;
+}
+
+.delete {
+  position: absolute;
+  right: 70px;
+  border: 1px brown solid;
+}

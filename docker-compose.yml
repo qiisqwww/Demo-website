@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   nginx_proxy:
@@ -29,11 +29,12 @@ services:
       postgres_daw:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:8080/api/healthcheck || exit 1" ]
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8080/api/healthcheck || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
-      
+
   postgres_daw:
     image: postgres:16.1-alpine3.19
     restart: always
@@ -42,10 +43,21 @@ services:
     volumes:
       - ./api/db:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  adminer:
+    image: adminer:4.8.1
+    depends_on:
+      postgres_daw:
+        condition: service_healthy
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres_daw
+    ports:
+      - "8081:8080"
+    restart: always
 
   frontend:
     build:

@@ -1,0 +1,23 @@
+.list {
+  min-width: 600px;
+}
+
+.listItem {
+  font-family: "Comfortaa", sans-serif;
+  border: 1px #fff solid;
+  border-radius: 20px;
+  margin: 20px 0;
+  padding: 15px !important;
+}
+
+.page {
+  padding: 0 70px;
+}
+
+.active {
+  color: green;
+}
+
+.inactive {
+  color: brown;
+}

@@ -1,0 +1,9 @@
+.button {
+  display: block;
+  color: #fff;
+  font-size: 40px;
+  width: 100%;
+  margin-top: 100px;
+  text-align: center;
+  text-decoration: underline;
+}
